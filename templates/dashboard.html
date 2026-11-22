@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - SafeLocate{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+{% endblock %}
+{% block body_class %}app{% endblock %}
+{% block body %}
+<header class="topbar">
+  <div class="brand"><span class="beacon sm" aria-hidden="true"></span>SafeLocate</div>
+  <div class="who">
+    <span>{{ g.user.name }}</span>
+    <form method="post" action="{{ url_for('logout') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button class="btn ghost" type="submit">Sign out</button>
+    </form>
+  </div>
+</header>
+
+<div class="layout">
+  <div class="map-pane"><div id="map" aria-label="Map of shared locations"></div></div>
+
+  <aside class="panel">
+    <section class="card share-card" id="shareCard">
+      <div class="share-head">
+        <span class="beacon" id="beacon" aria-hidden="true"></span>
+        <div>
+          <h2 id="shareTitle">Sharing is off</h2>
+          <p class="muted" id="shareSub">Nobody can see your location.</p>
+        </div>
+      </div>
+      <button class="btn primary block" id="shareBtn" type="button">Start sharing my location</button>
+      <p class="muted small">Your browser will ask for permission. Keep this tab open while sharing; browsers pause GPS in the background.</p>
+      <button class="btn danger block" id="stopAll" type="button">Stop everything now</button>
+    </section>
+
+    <section class="card">
+      <h2>People who can see me</h2>
+      <form id="inviteForm" class="invite">
+        <input type="email" id="inviteEmail" placeholder="Contact's email" required maxlength="190" aria-label="Contact email">
+        <select id="inviteMinutes" aria-label="Sharing duration">
+          <option value="15">15 min</option><option value="60" selected>1 hour</option>
+          <option value="240">4 hours</option><option value="480">8 hours</option><option value="1440">24 hours</option>
+        </select>
+        <button class="btn primary" type="submit">Invite</button>
+      </form>
+      <p class="muted small">They must have an account and accept. The timer starts when they accept.</p>
+      <ul class="list" id="outgoing"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Shared with me</h2>
+      <ul class="list" id="incoming"></ul>
+    </section>
+  </aside>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% endblock %}

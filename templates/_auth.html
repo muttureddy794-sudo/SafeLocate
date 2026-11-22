@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block body_class %}auth{% endblock %}
+{% block body %}
+<main class="auth-wrap">
+  <section class="auth-intro">
+    <span class="beacon" aria-hidden="true"></span>
+    <h1>SafeLocate</h1>
+    <p>Share where you are with the people you trust, for as long as you choose. Nobody can see you unless you turn sharing on and they accept.</p>
+    <ul>
+      <li>Your phone asks permission before any location leaves it</li>
+      <li>Every share expires, and you can end it with one tap</li>
+      <li>Only your latest position is kept, never a history</li>
+    </ul>
+  </section>
+  <section class="auth-card">
+    {% with msgs = get_flashed_messages(with_categories=true) %}
+      {% for cat, m in msgs %}<div class="flash {{ cat }}">{{ m }}</div>{% endfor %}
+    {% endwith %}
+    {% block form %}{% endblock %}
+  </section>
+</main>
+{% endblock %}
