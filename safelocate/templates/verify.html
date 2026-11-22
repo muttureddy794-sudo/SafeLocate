@@ -1,0 +1,15 @@
+{% extends "_auth.html" %}
+{% block title %}Verify - SafeLocate{% endblock %}
+{% block form %}
+<h2>Enter your code</h2>
+<p class="muted">We sent a 6-digit code to <strong>{{ email }}</strong>. It expires in 10 minutes.</p>
+<form method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>Verification code<input class="code" type="text" name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required autocomplete="one-time-code" autofocus></label>
+  <button class="btn primary" type="submit">Verify and continue</button>
+</form>
+<form method="post" action="{{ url_for('resend') }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <button class="btn link" type="submit">Send a new code</button>
+</form>
+{% endblock %}

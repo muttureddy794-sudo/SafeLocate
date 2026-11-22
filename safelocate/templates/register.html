@@ -1,0 +1,15 @@
+{% extends "_auth.html" %}
+{% block title %}Create account - SafeLocate{% endblock %}
+{% block form %}
+<h2>Create your account</h2>
+<form method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>Full name<input type="text" name="name" required maxlength="80" autocomplete="name" autofocus></label>
+  <label>Email<input type="email" name="email" required autocomplete="email"></label>
+  <label>Password<input type="password" name="password" required minlength="10" autocomplete="new-password">
+    <small>At least 10 characters</small></label>
+  <label>Confirm password<input type="password" name="confirm" required minlength="10" autocomplete="new-password"></label>
+  <button class="btn primary" type="submit">Send verification code</button>
+</form>
+<p class="muted">Already registered? <a href="{{ url_for('login') }}">Sign in</a></p>
+{% endblock %}
